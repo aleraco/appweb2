@@ -1,0 +1,20 @@
+{
+  "name": "Cambio Turno FCO",
+  "short_name": "CambioTurno",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6efd",
+  "icons": [
+    {
+      "src": "/static/result_personale_32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/result_personale_192.png",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    }
+  ]
+}

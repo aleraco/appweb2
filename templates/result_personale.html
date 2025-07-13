@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Turni Personali</title>
+  <link rel="icon" href="{{ url_for('static', filename='result_personale.ico') }}" type="image/x-icon">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #eef2f3, #dfe6e9);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .container {
+      max-width: 900px;
+    }
+    .card-style {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #2d3436;
+      margin-bottom: 1rem;
+    }
+    .btn-calendar {
+      border-radius: 30px;
+      margin-right: 0.5rem;
+    }
+    .btn-google {
+      background-color: #e75151;
+      color: white;
+    }
+    .btn-google:hover {
+      background-color: #d14343;
+      color: white;
+    }
+    .btn-cambio {
+      background-color: #0984e3;
+      color: white;
+    }
+    .btn-cambio:hover {
+      background-color: #086bc1;
+    }
+    .btn-flight {
+      background-color: #f9ca24;
+      color: #212529;
+    }
+    .btn-flight:hover {
+      background-color: #f6b93b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+
+    <h2 class="text-center mb-4">
+		<i class="bi bi-person-lines-fill me-2"></i> Turni di <span class="text-primary">{{ utente }}</span><br>
+		<small class="text-muted">
+			<i class="bi bi-calendar-event me-1"></i> Mese di riferimento: <strong>{{ mese }} {{ anno }}</strong>
+		</small>
+	</h2>
+
+
+    {% if error %}
+      <div class="alert alert-danger text-center">{{ error }}</div>
+    {% else %}
+      <div class="card-style">
+        <div class="section-title">
+          <i class="bi bi-clipboard-check me-1"></i> Turni assegnati (tradotti)
+        </div>
+        <div class="table-responsive">
+          {{ tradotta|safe }}
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="/download/{{ utente|lower }}/{{ mese|lower }}" class="btn btn-success btn-calendar">
+          <i class="bi bi-calendar2-event"></i> Scarica calendario ICS
+        </a>
+
+        <a href="https://calendar.google.com/calendar/u/0/r/settings/export"
+           class="btn btn-google btn-calendar"
+           target="_blank" rel="noopener noreferrer">
+          <i class="bi bi-calendar-plus"></i> Importa su Google Calendar
+        </a>
+
+        <a href="/cambio-turno" class="btn btn-cambio btn-calendar">
+          <i class="bi bi-arrow-left-right"></i> Cerca Cambio Turno
+        </a>
+
+        <!-- Bottone Flight Tracker -->
+        <button class="btn btn-flight btn-calendar" type="button" data-bs-toggle="collapse" data-bs-target="#flightTrackerForm" aria-expanded="false" aria-controls="flightTrackerForm">
+          <i class="bi bi-airplane"></i> Flight Tracker
+        </button>
+      </div>
+
+      <!-- Form Flight Tracker (collapse) -->
+      <div class="collapse mt-4" id="flightTrackerForm">
+        <div class="card card-body">
+          <form method="post" action="/flight-info" class="d-flex flex-column align-items-center">
+            <div class="mb-3 w-75">
+              <input type="text" class="form-control text-center" name="flight_number" placeholder="Inserisci numero volo IATA (es. AF1404)" required>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-search"></i> Cerca volo
+            </button>
+          </form>
+        </div>
+      </div>
+	  
+	  <div class="text-center mt-4">
+			<a href="/arrivals-list" class="btn btn-dark w-100 py-3 fw-bold">
+				<i class="bi bi-airplane-fill"></i> Visualizza gli Arrivi di FCO "live"
+			</a>
+	  </div>	
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-link">
+        <i class="bi bi-arrow-left-circle"></i> Torna alla Home
+      </a>
+    </div>
+  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

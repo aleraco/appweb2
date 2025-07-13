@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Richiedi Cambio Turno</title>
+  <link rel="icon" href="{{ url_for('static', filename='cambio_turno.ico') }}" type="image/x-icon">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(145deg, #f2f4f7, #dbe6f2);
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      padding: 2.5rem;
+      background-color: #ffffff;
+    }
+    .form-label i {
+      color: #0d6efd;
+      margin-right: 0.5rem;
+    }
+    .btn-primary {
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+    }
+    .title-icon {
+      color: #0d6efd;
+      font-size: 1.8rem;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+
+          <h2 class="text-center mb-4">
+            <i class="bi bi-arrow-left-right title-icon"></i> Cerca Cambio Turno
+          </h2>
+          <p class="text-center text-muted mb-4">
+            Seleziona il giorno, l'orario e la durata del turno che desideri cambiare.
+          </p>
+
+          {% if messaggio %}
+            <div class="alert alert-info text-center">
+              <i class="bi bi-info-circle-fill me-1"></i> {{ messaggio }}
+            </div>
+          {% endif %}
+
+          <form method="post" action="/cambio-turno">
+            <div class="mb-3">
+              <label for="giorno" class="form-label">
+                <i class="bi bi-calendar3"></i> Giorno in esame
+              </label>
+              <input type="date" class="form-control" id="giorno" name="giorno" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="orario" class="form-label">
+                <i class="bi bi-clock-history"></i> Orario di inizio
+              </label>
+              <select class="form-select" id="orario" name="orario" required>
+                {% for hour in range(0, 24) %}
+                  <option value="{{ "%02d:00" % hour }}">{{ "%02d:00" % hour }}</option>
+                  <option value="{{ "%02d:30" % hour }}">{{ "%02d:30" % hour }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="durata" class="form-label">
+                <i class="bi bi-hourglass-split"></i> Durata del turno
+              </label>
+              <select class="form-select" id="durata" name="durata" required>
+                <option value="4">4 ore</option>
+                <option value="5">5 ore</option>
+                <option value="6">6 ore</option>
+                <option value="8">8 ore</option>
+              </select>
+            </div>
+
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="bi bi-search"></i> Cerca disponibilità
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <a href="/" class="btn btn-link">
+              <i class="bi bi-arrow-left-circle"></i> Torna alla Home
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
